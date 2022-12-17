@@ -6,7 +6,8 @@
 build/
 coverage/
 dist/
+erl_crash.dump
 node_modules/
-target/
+*.beam
+*.ez
 *.log
-*.tsbuildinfo
