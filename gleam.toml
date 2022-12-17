@@ -1,0 +1,11 @@
+name = "gleam_community_path"
+version = "1.0.0"
+licences = ["Apache-2.0"]
+description = "Path parsing and manipulation"
+repository = { type = "github", user = "gleam-community", repo = "path" }
+
+[dependencies]
+gleam_stdlib = "~> 0.25"
+
+[dev-dependencies]
+gleeunit = "~> 0.7"
