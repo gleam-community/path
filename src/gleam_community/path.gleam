@@ -209,13 +209,15 @@ fn filter_segment(segment: String) -> PathFilter {
   }
 }
 
-fn common_between(paths: List(#(String, String)), common: List(String)) -> List(String) {
+fn common_between(
+  paths: List(#(String, String)),
+  common: List(String),
+) -> List(String) {
   case paths {
     [] -> list.reverse(common)
-    
-    [#(part_a, part_b), ..tl] if part_a == part_b -> {
+
+    [#(part_a, part_b), ..tl] if part_a == part_b ->
       common_between(tl, [part_a, ..common])
-    }
 
     _ -> list.reverse(common)
   }
