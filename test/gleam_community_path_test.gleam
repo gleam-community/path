@@ -40,3 +40,117 @@ pub fn normalize_test() {
   path.normalize("../../../hello/sailor")
   |> should.equal("../../../hello/sailor")
 }
+
+pub fn extname_test() {
+  path.from_string("/hello/there/lucy.png")
+  |> path.extname()
+  |> should.equal(".png")
+
+  path.from_string("/hello/there/.lucy.image.pink.png")
+  |> path.extname()
+  |> should.equal(".png")
+
+  path.from_string("/hello/there")
+  |> path.extname()
+  |> should.equal("")
+
+  path.from_string("")
+  |> path.extname()
+  |> should.equal("")
+}
+
+pub fn delimiter_test() {
+  path.delimiter()
+  |> should.equal(":")
+}
+
+pub fn sep_test() {
+  path.sep()
+  |> should.equal("/")
+}
+
+pub fn dirname_test() {
+  path.from_string("/hello")
+  |> path.dirname()
+  |> should.equal("/")
+
+  path.from_string("./hello")
+  |> path.dirname()
+  |> should.equal(".")
+
+  path.from_string("./hello/there/lucy.gleam")
+  |> path.dirname()
+  |> should.equal("./hello/there")
+
+  path.from_string("/hello/there/lucy.gleam")
+  |> path.dirname()
+  |> should.equal("/hello/there")
+
+  path.from_string("")
+  |> path.dirname()
+  |> should.equal(".")
+
+  path.from_string("/")
+  |> path.dirname()
+  |> should.equal("/")
+
+  path.from_string(".")
+  |> path.dirname()
+  |> should.equal(".")
+
+  path.from_string("./")
+  |> path.dirname()
+  |> should.equal(".")
+}
+
+pub fn basename_test() {
+  path.from_string("/hello")
+  |> path.basename()
+  |> should.equal("hello")
+
+  path.from_string("/")
+  |> path.basename()
+  |> should.equal("")
+
+  path.from_string(".")
+  |> path.basename()
+  |> should.equal(".")
+}
+
+pub fn common_test() {
+  let path_a = path.from_string("/hello/there/friend/lucy.gleam")
+  let path_b = path.from_string("/hello/there/yak.gleam")
+
+  path.common(between: path_a, and: path_b)
+  |> should.equal(Ok(path.Absolute(["hello", "there"])))
+
+  let path_a = path.from_string("./hello/there/friend/lucy.gleam")
+  let path_b = path.from_string("./hello/there/yak.gleam")
+
+  path.common(between: path_a, and: path_b)
+  |> should.equal(Ok(path.Relative(["hello", "there"])))
+
+  let path_a = path.from_string("./hello/there/./friend/lucy.gleam")
+  let path_b = path.from_string("./hello/./there/yak.gleam")
+
+  path.common(between: path_a, and: path_b)
+  |> should.equal(Ok(path.Relative(["hello", "there"])))
+
+  let path_a = path.from_string("./hello/there/friend/lucy.gleam")
+  let path_b = path.from_string("/hello/there/yak.gleam")
+
+  path.common(between: path_a, and: path_b)
+  |> should.equal(Error(Nil))
+
+  let path_a = path.from_string("/hi/there/friend/lucy.gleam")
+  let path_b = path.from_string("/hello/there/yak.gleam")
+
+  path.common(between: path_a, and: path_b)
+  |> should.equal(Ok(path.Absolute([])))
+
+  let path_a = path.from_string("/")
+  let path_b = path.from_string("/")
+
+  path.common(between: path_a, and: path_b)
+  |> should.equal(Ok(path.Absolute([])))
+}
