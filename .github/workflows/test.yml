@@ -7,7 +7,7 @@ on:
     branches: ["**"]
 
 concurrency:
-  group: main-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -19,8 +19,8 @@ jobs:
 
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: "25.0"
-          gleam-version: "0.25.3"
+          otp-version: "26.0"
+          gleam-version: "0.29.0"
 
       - run: gleam format --check
 
