@@ -13,7 +13,7 @@ pub type PathKind {
   Relative
 }
 
-fn normalize_segments(kind: PathKind) {
+fn normalize_segments_for(kind kind: PathKind) {
   fn(segments: List(String), segment: String) -> List(String) {
     case segment {
       ".." -> {
@@ -45,7 +45,7 @@ pub fn from_string(path_string: String) -> Path {
 
   path_string
   |> string.split("/")
-  |> list.fold([], normalize_segments(kind))
+  |> list.fold([], normalize_segments_for(kind))
   |> Path(kind)
 }
 
@@ -53,7 +53,7 @@ pub fn append_string(self: Path, piece: String) -> Path {
   let segments =
     piece
     |> string.split("/")
-    |> list.fold(self.segments, normalize_segments(self.kind))
+    |> list.fold(self.segments, normalize_segments_for(self.kind))
 
   Path(..self, segments: segments)
 }

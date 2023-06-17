@@ -23,3 +23,11 @@ pub fn normalize_test() {
   path_string.normalize("../../../hello/sailor")
   |> should.equal("../../../hello/sailor")
 }
+
+pub fn append_test() {
+  path_string.append("/hello", "./././there")
+  |> should.equal("/hello/there")
+
+  path_string.append("./hello", "./././there")
+  |> should.equal("./hello/there")
+}

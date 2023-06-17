@@ -1,6 +1,5 @@
 import gleam_community/path
 import gleeunit/should
-import gleam/io
 
 pub fn from_string_test() {
   path.from_string("/hello/friend")
@@ -12,12 +11,10 @@ pub fn from_string_test() {
   |> should.be_true()
 
   path.from_string("hello/friend")
-  |> io.debug()
   |> path.equals(["hello", "friend"], path.Relative)
   |> should.be_true()
 
   path.from_string("./hello/./friend/../buddy")
-  |> io.debug()
   |> path.equals([".", "hello", "buddy"], path.Relative)
   |> should.be_true()
 }
