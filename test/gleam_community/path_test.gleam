@@ -36,7 +36,6 @@ pub fn and_then_test() {
   |> should.be_true()
 }
 
-
 pub fn append_test() {
   path.from_string("/hello/there")
   |> path.append_string("./buddy/pal")

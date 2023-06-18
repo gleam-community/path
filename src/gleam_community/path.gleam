@@ -50,7 +50,6 @@ pub fn from_string(path_string: String) -> Path {
 }
 
 pub fn and_then(self: Path, piece: Path) -> Path {
-
   case piece.kind {
     Absolute -> piece
     Relative -> {
@@ -78,7 +77,6 @@ pub fn append(self: Path, piece: Path) -> Path {
   Path(..self, segments: segments)
 }
 
-
 pub fn append_string(self: Path, piece: String) -> Path {
   let segments =
     piece
@@ -99,7 +97,9 @@ pub fn relative(self: Path) -> Path {
 pub fn absolute_or_resolve_from(self: Path, root: String) -> Path {
   case self.kind {
     Absolute -> self
-    Relative -> from_string(root) |> append(self)
+    Relative ->
+      from_string(root)
+      |> append(self)
   }
 }
 

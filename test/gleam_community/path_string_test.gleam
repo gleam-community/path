@@ -32,7 +32,6 @@ pub fn and_then_test() {
   |> should.equal("/there")
 }
 
-
 pub fn append_test() {
   path_string.append("/hello", "./././there")
   |> should.equal("/hello/there")
