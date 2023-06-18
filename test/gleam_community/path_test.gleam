@@ -19,7 +19,25 @@ pub fn from_string_test() {
   |> should.be_true()
 }
 
-pub fn join_test() {
+pub fn and_then_test() {
+  path.from_string("/hello/there")
+  |> path.and_then_string("./buddy/pal")
+  |> path.equals(["hello", "there", "buddy", "pal"], path.Absolute)
+  |> should.be_true()
+
+  path.from_string("/hello/there")
+  |> path.and_then_string("../sailor")
+  |> path.equals(["hello", "sailor"], path.Absolute)
+  |> should.be_true()
+
+  path.from_string("/hello/there")
+  |> path.and_then_string("/sailor")
+  |> path.equals(["sailor"], path.Absolute)
+  |> should.be_true()
+}
+
+
+pub fn append_test() {
   path.from_string("/hello/there")
   |> path.append_string("./buddy/pal")
   |> path.equals(["hello", "there", "buddy", "pal"], path.Absolute)
@@ -28,5 +46,10 @@ pub fn join_test() {
   path.from_string("/hello/there")
   |> path.append_string("../sailor")
   |> path.equals(["hello", "sailor"], path.Absolute)
+  |> should.be_true()
+
+  path.from_string("/hello/there")
+  |> path.append_string("/sailor")
+  |> path.equals(["hello", "there", "sailor"], path.Absolute)
   |> should.be_true()
 }

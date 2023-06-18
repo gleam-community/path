@@ -49,6 +49,36 @@ pub fn from_string(path_string: String) -> Path {
   |> Path(kind)
 }
 
+pub fn and_then(self: Path, piece: Path) -> Path {
+
+  case piece.kind {
+    Absolute -> piece
+    Relative -> {
+      let segments =
+        piece.segments
+        |> list.reverse()
+        |> list.fold(self.segments, normalize_segments_for(self.kind))
+
+      Path(..self, segments: segments)
+    }
+  }
+}
+
+pub fn and_then_string(self: Path, piece: String) -> Path {
+  let piece = from_string(piece)
+
+  and_then(self, piece)
+}
+
+pub fn append(self: Path, piece: Path) -> Path {
+  let segments =
+    piece.segments
+    |> list.fold(self.segments, normalize_segments_for(self.kind))
+
+  Path(..self, segments: segments)
+}
+
+
 pub fn append_string(self: Path, piece: String) -> Path {
   let segments =
     piece
@@ -56,6 +86,21 @@ pub fn append_string(self: Path, piece: String) -> Path {
     |> list.fold(self.segments, normalize_segments_for(self.kind))
 
   Path(..self, segments: segments)
+}
+
+pub fn absolute(self: Path) -> Path {
+  Path(..self, kind: Absolute)
+}
+
+pub fn relative(self: Path) -> Path {
+  Path(..self, kind: Relative)
+}
+
+pub fn absolute_or_resolve_from(self: Path, root: String) -> Path {
+  case self.kind {
+    Absolute -> self
+    Relative -> from_string(root) |> append(self)
+  }
 }
 
 pub fn to_string(self: Path) -> String {
